@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090909" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>MONI · Finanzas</title>
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">M</span>
+      <span>MONI</span>
+    </div>
+    <button id="notificationButton" class="round-button" title="Activar recordatorios">♢</button>
+  </header>
+
+  <main>
+    <section class="welcome">
+      <p>MI DINERO, MIS REGLAS</p>
+      <h1>Hola, <span>vamos por tus metas.</span></h1>
+      <button class="glow-button" id="addMovementButton">+ Registrar movimiento</button>
+    </section>
+
+    <section class="stats">
+      <article class="glass-card stat-card">
+        <small>DISPONIBLE</small>
+        <strong id="availableAmount">$0</strong>
+        <span>Ingresos - gastos</span>
+      </article>
+
+      <article class="glass-card stat-card">
+        <small>AHORRO PENDIENTE</small>
+        <strong id="pendingAmount">$0</strong>
+        <span>Entre todas tus metas</span>
+      </article>
+
+      <article class="glass-card stat-card">
+        <small>PRÓXIMO PAGO</small>
+        <strong id="nextPaymentAmount">—</strong>
+        <span id="nextPaymentName">Sin pagos pendientes</span>
+      </article>
+    </section>
+
+    <nav class="navigation">
+      <button class="nav-button active" data-section="home">Inicio</button>
+      <button class="nav-button" data-section="goals">Metas</button>
+      <button class="nav-button" data-section="calendar">Calendario</button>
+      <button class="nav-button" data-section="history">Movimientos</button>
+    </nav>
+
+    <section id="home" class="page active">
+      <div class="two-columns">
+        <article class="glass-card panel">
+          <div class="heading">
+            <div>
+              <p class="label">TU RITMO</p>
+              <h2>Plan semanal</h2>
+            </div>
+            <button class="text-button" data-go="goals">Ver metas</button>
+          </div>
+          <div id="weeklyPlan" class="list"></div>
+        </article>
+
+        <article class="glass-card panel">
+          <div class="heading">
+            <div>
+              <p class="label">MÁS CERCANO</p>
+              <h2>Pago próximo</h2>
+            </div>
+          </div>
+          <div id="nextPaymentCard" class="payment-highlight">
+            Aún no agregas pagos.
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="goals" class="page">
+      <div class="heading section-title">
+        <div>
+          <p class="label">OBJETIVOS</p>
+          <h2>Metas de ahorro</h2>
+        </div>
+        <button class="glow-button small" id="addGoalButton">+ Nueva meta</button>
+      </div>
+
+      <div id="goalsList" class="goal-grid"></div>
+    </section>
+
+    <section id="calendar" class="page">
+      <div class="heading section-title">
+        <div>
+          <p class="label">COMPROMISOS</p>
+          <h2>Calendario de pagos</h2>
+        </div>
+        <button class="glow-button small" id="addPaymentButton">+ Agregar pago</button>
+      </div>
+
+      <div class="calendar-layout">
+        <article class="glass-card calendar-card">
+          <div class="calendar-header">
+            <button class="arrow" id="previousMonth">‹</button>
+            <h3 id="calendarTitle"></h3>
+            <button class="arrow" id="nextMonth">›</button>
+          </div>
+
+          <div class="weekdays">
+            <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span>
+            <span>Vie</span><span>Sáb</span><span>Dom</span>
+          </div>
+
+          <div id="calendarDays" class="calendar-days"></div>
+        </article>
+
+        <aside class="glass-card day-detail">
+          <p class="label" id="selectedDateLabel">SELECCIONA UN DÍA</p>
+          <h3 id="selectedDayTitle">Tus pagos aparecerán aquí</h3>
+          <div id="selectedDayPayments" class="list muted">
+            Toca un día con un punto de color para revisar qué debes pagar.
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="history" class="page">
+      <div class="heading section-title">
+        <div>
+          <p class="label">CONTROL</p>
+          <h2>Movimientos</h2>
+        </div>
+        <button class="glow-button small" id="addMovementButton2">+ Movimiento</button>
+      </div>
+
+      <div class="two-columns">
+        <article class="glass-card panel">
+          <h3>Resumen</h3>
+          <div id="totals" class="totals"></div>
+        </article>
+
+        <article class="glass-card panel">
+          <h3>Historial</h3>
+          <div id="movementList" class="list"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="goalDialog">
+    <form id="goalForm">
+      <div class="modal-heading">
+        <h2>Nueva meta</h2>
+        <button type="button" class="close">×</button>
+      </div>
+
+      <label>Nombre
+        <input name="name" required placeholder="Ej. Comprar una laptop" />
+      </label>
+
+      <div class="form-row">
+        <label>Monto meta
+          <input name="target" type="number" required min="1" placeholder="5000" />
+        </label>
+
+        <label>Ya tengo
+          <input name="saved" type="number" min="0" value="0" />
+        </label>
+      </div>
+
+      <label>Fecha límite
+        <input name="deadline" type="date" required />
+      </label>
+
+      <label>Color de la meta
+        <input name="color" type="color" value="#a855f7" />
+      </label>
+
+      <button class="glow-button submit">Guardar meta</button>
+    </form>
+  </dialog>
+
+  <dialog id="paymentDialog">
+    <form id="paymentForm">
+      <div class="modal-heading">
+        <h2>Nuevo pago</h2>
+        <button type="button" class="close">×</button>
+      </div>
+
+      <label>¿Qué tienes que pagar?
+        <input name="name" required placeholder="Ej. Mensualidad de prepa" />
+      </label>
+
+      <div class="form-row">
+        <label>Monto
+          <input name="amount" type="number" required min="1" placeholder="2000" />
+        </label>
+
+        <label>Fecha
+          <input name="date" type="date" required />
+        </label>
+      </div>
+
+      <label>Color del punto en calendario
+        <input name="color" type="color" value="#a855f7" />
+      </label>
+
+      <label class="checkbox">
+        <input name="monthly" type="checkbox" />
+        Se repite cada mes
+      </label>
+
+      <button class="glow-button submit">Guardar pago</button>
+    </form>
+  </dialog>
+
+  <dialog id="movementDialog">
+    <form id="movementForm">
+      <div class="modal-heading">
+        <h2>Registrar movimiento</h2>
+        <button type="button" class="close">×</button>
+      </div>
+
+      <label>Tipo
+        <select name="type">
+          <option value="income">Ingreso</option>
+          <option value="expense">Gasto</option>
+          <option value="saving">Ahorro para meta</option>
+        </select>
+      </label>
+
+      <label>Descripción
+        <input name="description" required placeholder="Ej. Venta, transporte, ahorro…" />
+      </label>
+
+      <div class="form-row">
+        <label>Monto
+          <input name="amount" type="number" required min="1" />
+        </label>
+
+        <label>Fecha
+          <input name="date" type="date" required />
+        </label>
+      </div>
+
+      <label>Meta a la que abonas
+        <select id="goalSelect" name="goalId">
+          <option value="">No aplica</option>
+        </select>
+      </label>
+
+      <button class="glow-button submit">Guardar movimiento</button>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
